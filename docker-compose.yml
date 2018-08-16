@@ -5,11 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-rabbitmq
-    # container_name: rabbit1
-    # hostname: rabbitmq1
-    # environment:
-    #   - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw
-      # - SERVICE_15672_NAME=rabbitmq1
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw
     volumes:
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - rabbitmq:/var/lib/rabbitmq
@@ -21,13 +18,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-rabbitmq
-    # container_name: rabbit2
-    # hostname: rabbitmq2
-    # environment:
-      # - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw
-      # - SERVICE_15672_NAME=rabbitmq2
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw
     depends_on:
       - rabbitmq1
+    restart: always
     volumes:
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - rabbitmq:/var/lib/rabbitmq
@@ -39,16 +34,6 @@ services:
     image: consul
     ports:
       - 8500:8500
-
-  # registrator:
-  #   image: gliderlabs/registrator:v7
-  #   command: ['-cleanup', '-deregister=always', 'consul://consul:8500']
-  #   links:
-  #     - consul
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock
-  #   depends_on:
-  #     - consul
 
 volumes:
   rabbitmq:

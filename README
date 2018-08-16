@@ -8,3 +8,12 @@
 2. 如果使用docker volume, - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw 不能写入到 /var/lib/rabbitmq/.erlang.cookie
 
 3. 如果使用.erlang.cookie 映射到/var/lib/rabbitmq/.erlang.cookie, 需要在entrypoint.sh更改此文件的权限
+
+4. 第一次运行docker-compose up -d, rabbitmq2 会自动退出，这是因为[race condition](http://www.rabbitmq.com/cluster-formation.html#initial-formation-race-condition), 要么简单粗暴的加上restart:always或者控制启动顺序（https://8thlight.com/blog/dariusz-pasciak/2016/10/17/docker-compose-wait-for-dependencies.html）
+
+
+
+参考链接:
+1. https://docs.docker.com/compose/compose-file/
+2. http://www.rabbitmq.com/cluster-formation.html#peer-discovery-consul
+3. https://hub.docker.com/_/rabbitmq/
