@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  rabbitmq1:
+    build:
+      context: .
+      dockerfile: Dockerfile-rabbitmq
+    # container_name: rabbit1
+    # hostname: rabbitmq1
+    # environment:
+    #   - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw
+      # - SERVICE_15672_NAME=rabbitmq1
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - rabbitmq:/var/lib/rabbitmq
+      # - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+    ports:
+      - 15672:15672
+
+  rabbitmq2:
+    build:
+      context: .
+      dockerfile: Dockerfile-rabbitmq
+    # container_name: rabbit2
+    # hostname: rabbitmq2
+    # environment:
+      # - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw
+      # - SERVICE_15672_NAME=rabbitmq2
+    depends_on:
+      - rabbitmq1
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - rabbitmq:/var/lib/rabbitmq
+      # - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+    # ports:
+    #   - 15673:15672
+
+  consul:
+    image: consul
+    ports:
+      - 8500:8500
+
+  # registrator:
+  #   image: gliderlabs/registrator:v7
+  #   command: ['-cleanup', '-deregister=always', 'consul://consul:8500']
+  #   links:
+  #     - consul
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock
+  #   depends_on:
+  #     - consul
+
+volumes:
+  rabbitmq:
+    driver: local

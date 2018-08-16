@@ -1,1 +1,10 @@
-# RabbitMQ clustering with different approaches 
+# RabbitMQ clustering with consul
+
+
+需要主要的几点：
+
+1. RabbitMQ clustering with consul 无需Registrator, 只需配置好rabbitmq.conf
+
+2. 如果使用docker volume, - RABBITMQ_ERLANG_COOKIE=abcdefghjklmnopqrstuvw 不能写入到 /var/lib/rabbitmq/.erlang.cookie
+
+3. 如果使用.erlang.cookie 映射到/var/lib/rabbitmq/.erlang.cookie, 需要在entrypoint.sh更改此文件的权限
