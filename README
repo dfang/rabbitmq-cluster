@@ -15,5 +15,8 @@
 
 参考链接:
 1. https://docs.docker.com/compose/compose-file/
-2. http://www.rabbitmq.com/cluster-formation.html#peer-discovery-consul
-3. https://hub.docker.com/_/rabbitmq/
+2. http://www.rabbitmq.com/clustering.html
+3. http://www.rabbitmq.com/cluster-formation.html#peer-discovery-consul
+4. https://hub.docker.com/_/rabbitmq/
+5. https://github.com/pardahlman/docker-rabbitmq-cluster
+6. https://github.com/harbur/docker-rabbitmq-cluster
