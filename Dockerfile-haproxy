@@ -1,0 +1,24 @@
+FROM haproxy:1.8.13-alpine
+LABEL Description="Runs consul template and runs haproxy based on the generated configuration" Version="0.1"
+
+ENV CONSUL_TEMPLATE_VERSION=0.19.4
+ENV CONSUL_URL=localhost:8500
+
+# Update wget to get support for SSL and tini
+RUN apk --update --no-cache add wget tini
+
+# Download consul-template
+RUN wget --no-check-certificate https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz \
+  && tar xfz consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz \
+  && mv consul-template /usr/bin/consul-template \
+  && rm consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz
+
+COPY haproxy/haproxy.hcl /tmp/haproxy.hcl
+COPY haproxy/haproxy.cfg.ctmpl /tmp/haproxy.cfg.ctmpl
+
+ENTRYPOINT ["/sbin/tini","-v", "--"]
+# CMD ["haproxy", "-f /etc/haproxy/haproxy.cfg"]
+# override cmd in docker-compose.yml
+# consul-template -config=/tmp/haproxy.hcl -consul-addr=consul:8500 -log-level=info
+CMD ["consul-template", -help"]
+

@@ -11,6 +11,9 @@
 
 4. 第一次运行docker-compose up -d, rabbitmq2 会自动退出，这是因为[race condition](http://www.rabbitmq.com/cluster-formation.html#initial-formation-race-condition), 要么简单粗暴的加上restart:always或者控制启动顺序（https://8thlight.com/blog/dariusz-pasciak/2016/10/17/docker-compose-wait-for-dependencies.html）
 
+5.
+captain build
+docker-compose up -d --scale rabbitmq=3
 
 
 参考链接:
@@ -20,3 +23,24 @@
 4. https://hub.docker.com/_/rabbitmq/
 5. https://github.com/pardahlman/docker-rabbitmq-cluster
 6. https://github.com/harbur/docker-rabbitmq-cluster
+
+
+### haproxy zombie processes issues
+
+https://github.com/hashicorp/consul-template/issues/950
+https://github.com/hashicorp/consul-template/issues/442
+https://github.com/hashicorp/consul-template/issues/236
+
+https://github.com/krallin/tini/issues/8
+https://phusion.github.io/baseimage-docker/
+tini
+tini/mini
+
+
+### Load balancing
+
+https://ypereirareis.github.io/blog/2017/04/03/rabbitmq-high-available-cluster-haproxy-docker/
+https://medium.com/@x_cray/don-t-balance-tcp-traffic-with-haproxy-d7923a6e379e
+https://stackoverflow.com/questions/28207327/how-load-balancer-works-in-rabbitmq
+https://pdfs.loadbalancer.org/RabbitMQ_Deployment_Guide.pdf
+http://pdfs.loadbalancer.org/loadbalanceradministrationv8.pdf

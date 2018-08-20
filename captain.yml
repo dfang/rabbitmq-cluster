@@ -1,3 +1,7 @@
 rabbitmq-cluster:
   build: Dockerfile-rabbitmq
   image: dfang/rabbitmq-cluster
+
+haproxy-consul:
+  build: Dockerfile-haproxy
+  image: dfang/haproxy-consul
